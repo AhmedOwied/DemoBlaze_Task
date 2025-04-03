@@ -23,7 +23,6 @@ public class P04_CartPage {
 
     private By purchaseButton=By.cssSelector("button[onclick='purchaseOrder()']");
 
-    private By popSuccess=By.cssSelector(".sweet-alert");
     private By messageSuccess=By.cssSelector("div.sweet-alert >h2");
 
     private By submitButton=By.cssSelector("div.sa-confirm-button-container >button");
@@ -76,19 +75,12 @@ public class P04_CartPage {
         return this;
     }
 
-    /*
-    public boolean isMessageSuccessfull(){
+    public String getThankYouMessage() {
+        // Wait for the success Message to be Present
+        Waits.waitForElementPresent(driver,messageSuccess);
+        return driver.findElement(messageSuccess).getText();
+    }
 
-            // Wait for the success Message to be Present
-            Waits.waitForElementPresent(driver,messageSuccess);
-
-            // Get the success message text
-            String actualMessage = driver.findElement(messageSuccess).getText();
-            System.out.println(actualMessage);
-
-        return true;
-
-    }*/
 
     public void clickOnSubmitButton(){
         Waits.clickOnElement(driver,submitButton);

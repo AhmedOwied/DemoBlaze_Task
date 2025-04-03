@@ -18,9 +18,17 @@ public class e2e_Scenario {
     private WebDriver driver;
     private P01_LoginPage loginPage;
 
+    @BeforeClass
+    public void setUp(){
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("start-maximized");
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL); //Read -> Document
+        driver = new EdgeDriver(options);
+        loginPage=new P01_LoginPage(driver);
+        loginPage.navigateToLoginPage();
+    }
 
     //tests
-
     @Test
     public void validLogin() throws FileNotFoundException {
         new P01_LoginPage(driver).clickONLogin()
@@ -29,7 +37,7 @@ public class e2e_Scenario {
                 .clickOnLoginButton();
 
         Assert.assertTrue(new P01_LoginPage(driver).isWelcomeMessageDisplayed(), "Element not displayed success");
-        System.out.println("Welcome message status: " + new P01_LoginPage(driver).isWelcomeMessageDisplayed());
+        //System.out.println("Welcome message status: " + new P01_LoginPage(driver).isWelcomeMessageDisplayed());
     }
 
     @Test(dependsOnMethods ="validLogin")
@@ -54,26 +62,15 @@ public class e2e_Scenario {
                 .enterCreditCard(DataUtil.getJsonData("CheckOutForm","CreditCard"))
                 .enterMonth(DataUtil.getJsonData("CheckOutForm","Month"))
                 .enterYear(DataUtil.getJsonData("CheckOutForm","Year"))
-                .clickOnPurchaseButton();
-                //.clickOnSubmitButton();
+                .clickOnPurchaseButton()
+                .clickOnSubmitButton();  //TODO:: Wrong When Click on Ok button !!
 
-        //TODO::Don`t Forget Assert Success Message
+        Assert.assertEquals(new P04_CartPage(driver).getThankYouMessage(),"Thank you for your purchase!");
 
 
 
     }
 
-
-    //configuration
-    @BeforeClass
-    public void setUp(){
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("start-maximized");
-        options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        driver = new EdgeDriver(options);
-        loginPage=new P01_LoginPage(driver);
-        loginPage.navigateToLoginPage();
-    }
 
     @AfterClass
     public void tearDown(){
