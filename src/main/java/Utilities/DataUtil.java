@@ -1,22 +1,42 @@
 package Utilities;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class DataUtil {
     private static String TEST_DATA_PATH ="src/test/resources/";
 
-    //TODO:: Reading data from Json file
-    public static String getJsonData(String filename,String key) throws FileNotFoundException {
-        FileReader read =new FileReader(TEST_DATA_PATH + filename + ".json");
-        JsonElement jsonElement = JsonParser.parseReader(read);
-        return jsonElement.getAsJsonObject().get(key).getAsString();
+    public static String getJsonData(String filename, String... keys) {
+        InputStream inputStream = DataUtil.class.getClassLoader().getResourceAsStream(filename + ".json");
+
+        if (inputStream == null) {
+            throw new RuntimeException("❌ الملف غير موجود في resources: " + filename + ".json");
+        }
+
+        JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(inputStream));
+        JsonObject currentObject = jsonElement.getAsJsonObject();
+
+        for (int i = 0; i < keys.length - 1; i++) {
+            if (currentObject.has(keys[i])) {
+                currentObject = currentObject.getAsJsonObject(keys[i]);
+            } else {
+                throw new RuntimeException("❌ المفتاح غير موجود: " + keys[i]);
+            }
+        }
+
+        String lastKey = keys[keys.length - 1];
+        if (currentObject.has(lastKey)) {
+            return currentObject.get(lastKey).getAsString();
+        } else {
+            throw new RuntimeException("❌ المفتاح الأخير غير موجود: " + lastKey);
+        }
     }
 
     //TODO:: Reading data from properties file

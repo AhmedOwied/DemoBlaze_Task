@@ -12,6 +12,7 @@ public class P01_LoginPage {
     //Variables
     private WebDriver driver;
 
+    //Constructors
     public P01_LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -37,6 +38,7 @@ public class P01_LoginPage {
     }
 
     public P01_LoginPage enterUsername(String name) {
+
         Waits.sendData(driver, userNameInput, name);
         return this;
         //driver.findElement(userNameInput).sendKeys(name);

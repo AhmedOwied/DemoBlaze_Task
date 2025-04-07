@@ -9,10 +9,12 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.FileNotFoundException;
+
 
 public class e2e_Scenario {
     private WebDriver driver;
@@ -24,20 +26,23 @@ public class e2e_Scenario {
         options.addArguments("start-maximized");
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL); //Read -> Document
         driver = new EdgeDriver(options);
+
+        driver.manage().window().maximize();
         loginPage=new P01_LoginPage(driver);
         loginPage.navigateToLoginPage();
-    }
+
+        }
 
     //tests
+    @Parameters(value ={"Username","Password"})
     @Test
-    public void validLogin() throws FileNotFoundException {
+    public void validLogin(@Optional("test") String username,@Optional("test") String password) {
         new P01_LoginPage(driver).clickONLogin()
-               .enterUsername(DataUtil.getJsonData("LoginCredential","username"))
-                .enterPassword(DataUtil.getJsonData("LoginCredential","password"))
+                .enterUsername(username)
+                .enterPassword(password)
                 .clickOnLoginButton();
 
-        Assert.assertTrue(new P01_LoginPage(driver).isWelcomeMessageDisplayed(), "Element not displayed success");
-        //System.out.println("Welcome message status: " + new P01_LoginPage(driver).isWelcomeMessageDisplayed());
+        Assert.assertTrue(new P01_LoginPage(driver).isWelcomeMessageDisplayed(), "Assert True for Welcome Message not displayed success");
     }
 
     @Test(dependsOnMethods ="validLogin")
@@ -56,16 +61,16 @@ public class e2e_Scenario {
     public void checkOutOrder() throws FileNotFoundException {
         new P04_CartPage(driver).clickOnCartButton()
                 .clickOnPlaceOrder()
-                .enterName(DataUtil.getJsonData("CheckOutForm","Name"))
-                .enterCountry(DataUtil.getJsonData("CheckOutForm","Country"))
-                .enterCity(DataUtil.getJsonData("CheckOutForm","City"))
-                .enterCreditCard(DataUtil.getJsonData("CheckOutForm","CreditCard"))
-                .enterMonth(DataUtil.getJsonData("CheckOutForm","Month"))
-                .enterYear(DataUtil.getJsonData("CheckOutForm","Year"))
+                .enterName(DataUtil.getJsonData("TestData","CheckoutData","Name"))
+                .enterCountry(DataUtil.getJsonData("TestData","CheckoutData","Country"))
+                .enterCity(DataUtil.getJsonData("TestData","CheckoutData","City"))
+                .enterCreditCard(DataUtil.getJsonData("TestData","CheckoutData","CreditCard"))
+                .enterMonth(DataUtil.getJsonData("TestData","CheckoutData","Month"))
+                .enterYear(DataUtil.getJsonData("TestData","CheckoutData","Year"))
                 .clickOnPurchaseButton()
                 .clickOnSubmitButton();  //TODO:: Wrong When Click on Ok button !!
 
-        Assert.assertEquals(new P04_CartPage(driver).getThankYouMessage(),"Thank you for your purchase!");
+        Assert.assertEquals(new P04_CartPage(driver).getThankYouMessage(),"Thank you for your purchase!","Assert Equals that the success message for CheckOut is not displayed correctly");
 
 
 
