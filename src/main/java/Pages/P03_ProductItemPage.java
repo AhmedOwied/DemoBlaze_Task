@@ -11,7 +11,7 @@ public class P03_ProductItemPage {
     }
 
     //locators
-    private By cartButton= By.cssSelector("a[onclick='addToCart(1)']");
+    private By cartButton= By.partialLinkText("Add to cart");
     //methods
 
     public P03_ProductItemPage clickOnCartButton(){

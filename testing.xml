@@ -8,7 +8,6 @@
                     <include name="clickOnProduct"/>
                     <include name="addingItemToCart"/>
                     <include name="checkOutOrder"/>
-
                 </methods>
             </class>
         </classes>
@@ -27,7 +26,6 @@
             </class>
         </classes>
     </test>
-
 
     <test name="E2e_Scenario3">
         <classes>

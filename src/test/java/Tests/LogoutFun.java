@@ -40,7 +40,7 @@ public class LogoutFun {
 
 @Test(dependsOnMethods ="validLogin")
     public void contactFunctionality() throws FileNotFoundException{
-        new P02_HomePage(driver).clickonContactBtn()
+        new P02_HomePage(driver).clickOnContactBtn()
                 .enterEmail(DataUtil.getJsonData("TestData","ContactData","email"))
                 .enterName(DataUtil.getJsonData("TestData","ContactData","name")).
                 enterMessage(DataUtil.getJsonData("TestData","ContactData","message"))

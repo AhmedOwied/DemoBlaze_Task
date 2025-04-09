@@ -24,13 +24,21 @@ public class P02_HomePage {
 
     private By itemOfProduct= By.linkText("Samsung galaxy s6");
 
+    private By homeButton = By.partialLinkText("Home");
+
+    private By anotherofProduct=By.partialLinkText("Iphone 6 32gb");
+
+    private By MonitorsCategory=By.partialLinkText("Monitors");
+    private By MonitorProduct=By.partialLinkText("ASUS Full HD");
+
+
     //methods
 
     public void clickOnSpecificItem(){
         Waits.clickOnElement(driver,itemOfProduct);
     }
 
-    public P02_HomePage clickonContactBtn(){
+    public P02_HomePage clickOnContactBtn(){
         Waits.clickOnElement(driver,contactIcon);
         return this;
     }
@@ -67,6 +75,7 @@ public class P02_HomePage {
 
     public P02_HomePage clickOnLogoutBtn(){
         Waits.clickOnElement(driver,logoutBtn);
+
         return this;
     }
 
@@ -74,6 +83,28 @@ public class P02_HomePage {
         Waits.waitForElementPresent(driver,loginBtn);
         return driver.findElement(loginBtn).getText();
     }
+
+    public P02_HomePage clickOnHomeButton(){
+
+
+        Waits.clickOnElement(driver,homeButton);
+        return this;
+    }
+
+    public void clickOnAnotherItem(){
+        Waits.clickOnElement(driver,anotherofProduct);
+    }
+
+    public P02_HomePage ClickOnMonitors()
+    {
+        Waits.clickOnElement(driver,MonitorsCategory);
+        return this;
+    }
+
+    public void clickOnMonitorProduct(){
+        Waits.clickOnElement(driver,MonitorProduct);
+    }
+
 
 }
 

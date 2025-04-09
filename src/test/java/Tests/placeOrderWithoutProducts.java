@@ -1,36 +1,33 @@
 package Tests;
 
 import Pages.P01_LoginPage;
-import Pages.P02_HomePage;
-import Pages.P03_ProductItemPage;
 import Pages.P04_CartPage;
 import Utilities.DataUtil;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import java.io.FileNotFoundException;
 
-
-public class e2e_Scenario {
+public class placeOrderWithoutProducts {
     private WebDriver driver;
     private P01_LoginPage loginPage;
 
     @BeforeClass
-    public void setUp(){
-        EdgeOptions options = new EdgeOptions();
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL); //Read -> Document
-        driver = new EdgeDriver(options);
-
-        driver.manage().window().maximize();
-        loginPage=new P01_LoginPage(driver);
+        driver = new ChromeDriver(options);
+        loginPage = new P01_LoginPage(driver);
         loginPage.navigateToLoginPage();
-
-        }
+    }
 
     //tests
 
@@ -44,21 +41,14 @@ public class e2e_Scenario {
         Assert.assertTrue(new P01_LoginPage(driver).isWelcomeMessageDisplayed(), "Assert True for Welcome Message not displayed success");
     }
 
-    @Test(dependsOnMethods ="validLogin")
-    public void clickOnProduct(){
-        new P02_HomePage(driver).clickOnSpecificItem();
-    }
+    @Test(dependsOnMethods = "validLogin")
+    public void Gotocart() throws FileNotFoundException {
+       new P04_CartPage(driver).clickOnCartButton();
 
-    @Test(dependsOnMethods ="clickOnProduct")
-    public void addingItemToCart(){
-         new P03_ProductItemPage(driver)
-                 .clickOnCartButton()
-                 .waitForAlertPresent();
     }
-
-    @Test(dependsOnMethods ="addingItemToCart")
-    public void checkOutOrder() throws FileNotFoundException, InterruptedException {
-        P04_CartPage cart=new P04_CartPage(driver);
+    @Test(dependsOnMethods = "Gotocart")
+    public void checkOutOrder() throws FileNotFoundException {
+        P04_CartPage cart= new P04_CartPage(driver);
         new P04_CartPage(driver).clickOnCartButton()
                 .clickOnPlaceOrder()
                 .enterName(DataUtil.getJsonData("TestData","CheckoutData","Name"))
@@ -69,14 +59,14 @@ public class e2e_Scenario {
                 .enterYear(DataUtil.getJsonData("TestData","CheckoutData","Year"))
                 .clickOnPurchaseButton();
 
-                Assert.assertEquals(cart.getThankYouMessage(),"Thank you for your purchase!","Assert Equals that the success message for CheckOut is not displayed correctly");
-                cart.clickOnOkButton();
+        Assert.assertEquals(cart.getThankYouMessage(),"The cart is empty");
+        cart.clickOnOkButton();
+
+
+
 
     }
 
 
-    @AfterClass
-    public void tearDown(){
-        //driver.quit();
-    }
+
 }
