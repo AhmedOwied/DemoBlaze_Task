@@ -7,6 +7,8 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
@@ -21,10 +23,10 @@ public class placeOrderWithoutProducts {
 
     @BeforeClass
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+        EdgeOptions options = new EdgeOptions();
         options.addArguments("start-maximized");
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL); //Read -> Document
-        driver = new ChromeDriver(options);
+        driver = new EdgeDriver(options);
         loginPage = new P01_LoginPage(driver);
         loginPage.navigateToLoginPage();
     }

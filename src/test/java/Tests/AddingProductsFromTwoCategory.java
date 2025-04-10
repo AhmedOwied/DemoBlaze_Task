@@ -9,6 +9,8 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
@@ -24,10 +26,10 @@ public class AddingProductsFromTwoCategory {
 
     @BeforeClass
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+        EdgeOptions options = new EdgeOptions();
         options.addArguments("start-maximized");
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL); //Read -> Document
-        driver = new ChromeDriver(options);
+        driver = new EdgeDriver(options);
         loginPage = new P01_LoginPage(driver);
         loginPage.navigateToLoginPage();
     }
@@ -56,7 +58,7 @@ public class AddingProductsFromTwoCategory {
     }
 
     @Test(dependsOnMethods = "addingA_First_ItemToCart")
-    public void goToHome_clickAnotherProduct() throws FileNotFoundException {
+    public void goToHome_clickAnotherProduct() {
         new P02_HomePage(driver).clickOnHomeButton();
     }
 
@@ -78,7 +80,7 @@ public class AddingProductsFromTwoCategory {
                 .waitForAlertPresent();
     }
     @Test(dependsOnMethods = "addingA_second_ItemToCart")
-    public void Gotocart() throws FileNotFoundException {
+    public void Gotocart()  {
 
         String Product1 = "Samsung galaxy s6";
         String Product2 = "ASUS Full HD";

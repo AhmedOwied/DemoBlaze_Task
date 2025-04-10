@@ -17,7 +17,7 @@ public class DataUtil {
         InputStream inputStream = DataUtil.class.getClassLoader().getResourceAsStream(filename + ".json");
 
         if (inputStream == null) {
-            throw new RuntimeException("❌ الملف غير موجود في resources: " + filename + ".json");
+            throw new RuntimeException(" الملف غير موجود في resources: " + filename + ".json");
         }
 
         JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(inputStream));
@@ -27,7 +27,7 @@ public class DataUtil {
             if (currentObject.has(keys[i])) {
                 currentObject = currentObject.getAsJsonObject(keys[i]);
             } else {
-                throw new RuntimeException("❌ المفتاح غير موجود: " + keys[i]);
+                throw new RuntimeException(" المفتاح غير موجود: " + keys[i]);
             }
         }
 
@@ -35,15 +35,9 @@ public class DataUtil {
         if (currentObject.has(lastKey)) {
             return currentObject.get(lastKey).getAsString();
         } else {
-            throw new RuntimeException("❌ المفتاح الأخير غير موجود: " + lastKey);
+            throw new RuntimeException(" المفتاح الأخير غير موجود: " + lastKey);
         }
     }
 
-    //TODO:: Reading data from properties file
-    public static String getPropertyValue(String filename ,String key) throws IOException {
-        Properties properties =new Properties();
-        properties.load(new FileInputStream(TEST_DATA_PATH+filename+".properties"));
-        return properties.getProperty(key);
-    }
 
 }

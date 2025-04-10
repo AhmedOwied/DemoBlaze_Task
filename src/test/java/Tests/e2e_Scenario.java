@@ -34,6 +34,38 @@ public class e2e_Scenario {
 
     //tests
 
+    @Test(invocationCount = 3)
+    public void e2e_scenario_One(){
+        new P01_LoginPage(driver).clickONLogin()
+                .enterUsername(DataUtil.getJsonData("TestData","LoginCred","username"))
+                .enterPassword(DataUtil.getJsonData("TestData","LoginCred","password"))
+                .clickOnLoginButton();
+        Assert.assertTrue(new P01_LoginPage(driver).isWelcomeMessageDisplayed(), "Assert True for Welcome Message not displayed success");
+        //
+        new P02_HomePage(driver).clickOnSpecificItem();
+        //
+        new P03_ProductItemPage(driver)
+                .clickOnCartButton()
+                .waitForAlertPresent();
+        ////
+        P04_CartPage cart= new P04_CartPage(driver);
+        new P04_CartPage(driver).clickOnCartButton()
+                .clickOnPlaceOrder()
+                .enterName(DataUtil.getJsonData("TestData","CheckoutData","Name"))
+                .enterCountry(DataUtil.getJsonData("TestData","CheckoutData","Country"))
+                .enterCity(DataUtil.getJsonData("TestData","CheckoutData","City"))
+                .enterCreditCard(DataUtil.getJsonData("TestData","CheckoutData","CreditCard"))
+                .enterMonth(DataUtil.getJsonData("TestData","CheckoutData","Month"))
+                .enterYear(DataUtil.getJsonData("TestData","CheckoutData","Year"))
+                .clickOnPurchaseButton();
+        Assert.assertEquals(cart.getThankYouMessage(),"Thank you for your purchase!","Assert Equals that the success message for CheckOut is not displayed correctly");
+        cart.clickOnOkButton();
+
+        new P02_HomePage(driver).clickOnLogoutBtn();
+
+    }
+
+
     @Test
     public void validLogin() {
         new P01_LoginPage(driver).clickONLogin()
@@ -77,6 +109,8 @@ public class e2e_Scenario {
 
     @AfterClass
     public void tearDown(){
-        //driver.quit();
+      //  driver.quit();
     }
+
+
 }
