@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="PartialSuite">
+    <test name="E2e_Scenario">
+        <classes>
+            <class name="Tests.e2e_Scenario"/>
+            <class name="Tests.DeleteItemFromCart_Sce"/>
+            <class name="Tests.AddingProductsFromTwoCategory"/>
+            <class name="Tests.NavigationbackAfterLogout"/>
+            <class name="Tests.placeOrderWithoutProducts"/>
+            <class name="Tests.LogoutFun"/>
+        </classes>
+    </test>
+</suite>
